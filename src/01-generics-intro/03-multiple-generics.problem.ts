@@ -1,7 +1,8 @@
 import { expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
-const returnBothOfWhatIPassIn = (a: unknown, b: unknown) => {
+//When you get two or more generics typescript becomes more carefull and only infers the top type, if you want more depth you extend to tyep type
+const returnBothOfWhatIPassIn = <A, B>(a: A, b: B) => {
   return {
     a,
     b,
@@ -10,6 +11,7 @@ const returnBothOfWhatIPassIn = (a: unknown, b: unknown) => {
 
 it("Should return an object of the arguments you pass", () => {
   const result = returnBothOfWhatIPassIn("a", 1);
+  type typeOfResult = typeof result;
 
   expect(result).toEqual({
     a: "a",
@@ -18,7 +20,7 @@ it("Should return an object of the arguments you pass", () => {
 
   type test1 = Expect<
     Equal<
-      typeof result,
+      typeOfResult,
       {
         a: string;
         b: number;
